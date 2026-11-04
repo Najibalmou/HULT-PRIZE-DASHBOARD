@@ -243,9 +243,9 @@ if st.button("Lancer l'analyse et synchroniser avec Notion"):
                 if resultat == "doublon":
                     st.warning(f"⏩ Déjà dans Notion (Doublon ignoré) : @{username}")
                 elif resultat == "ajouté":
-                    st.success(f"✅ Nouveau post ajouté : @{username}")
+                    st.success(f"Nouveau post ajouté : @{username}")
                 else:
-                    st.error(f"❌ Erreur d'injection Notion pour : @{username}")
+                    st.error(f"Erreur d'injection Notion pour : @{username}")
 
         except Exception as e:
             st.error(f"⚠️ Échec de la récupération pour @{username}: {e}")
