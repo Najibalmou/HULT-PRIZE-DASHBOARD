@@ -1,5 +1,8 @@
+from pathlib import Path
+
 import requests
 import streamlit as st
+from PIL import Image
 
 # ==========================================
 # ⚙️ CONFIGURATION NOTION & API
@@ -133,8 +136,76 @@ def fetch_instagram_posts(username):
 # ==========================================
 # 🌐 INTERFACE WEB STREAMLIT
 # ==========================================
-st.set_page_config(page_title="Hult Prize Radar", page_icon="🎯")
-st.title("🎯 Hult Prize Global Radar - Extracteur")
+BASE_DIR = Path(__file__).parent
+LOGO_PATH = BASE_DIR / "hultprize_logo.jpg"
+COVER_PATH = BASE_DIR / "hultprize_emsicasa_cover.jpeg"
+
+st.set_page_config(
+    page_title="Hult Prize Radar",
+    page_icon=Image.open(LOGO_PATH) if LOGO_PATH.exists() else "🎯",
+    layout="centered",
+)
+
+# ---------- 🎨 STYLE ----------
+st.markdown("""
+<style>
+    .block-container {padding-top: 1.2rem; max-width: 900px;}
+    #MainMenu, footer {visibility: hidden;}
+
+    .hp-title {
+        font-size: 2.1rem; font-weight: 800; line-height: 1.15; margin: 0;
+        background: linear-gradient(90deg, #FF2E93 0%, #B5348F 60%, #6B2A7E 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hp-subtitle {color: #9AA0AE; font-size: 1rem; margin-top: 0.3rem;}
+
+    .stTextArea textarea {
+        border-radius: 14px !important;
+        border: 1px solid rgba(255, 46, 147, 0.35) !important;
+    }
+    .stTextArea textarea:focus {
+        border-color: #FF2E93 !important;
+        box-shadow: 0 0 0 2px rgba(255, 46, 147, 0.25) !important;
+    }
+
+    div.stButton > button {
+        background: linear-gradient(90deg, #FF2E93, #B5348F);
+        color: white; border: none; border-radius: 12px;
+        padding: 0.7rem 1.6rem; font-weight: 700;
+        transition: transform .15s ease, box-shadow .15s ease;
+    }
+    div.stButton > button:hover {
+        transform: translateY(-2px); color: white;
+        box-shadow: 0 8px 22px rgba(255, 46, 147, 0.35);
+    }
+    div.stButton > button:active {color: white;}
+
+    .stProgress > div > div > div > div {
+        background: linear-gradient(90deg, #FF2E93, #6B2A7E);
+    }
+    div[data-testid="stAlert"] {border-radius: 12px;}
+    .hp-divider {height: 1px; margin: 1.2rem 0;
+        background: linear-gradient(90deg, transparent, rgba(255,46,147,.5), transparent);}
+</style>
+""", unsafe_allow_html=True)
+
+# ---------- 🖼️ BANDE EN HAUT ----------
+if COVER_PATH.exists():
+    st.image(str(COVER_PATH), use_container_width=True)
+
+# ---------- 🏷️ TITRE + LOGO ----------
+col_logo, col_title = st.columns([1, 6], vertical_alignment="center")
+with col_logo:
+    if LOGO_PATH.exists():
+        st.image(str(LOGO_PATH), width=80)
+with col_title:
+    st.markdown(
+        '<p class="hp-title">Hult Prize Global Radar</p>'
+        '<p class="hp-subtitle">Extracteur Instagram → Notion</p>',
+        unsafe_allow_html=True,
+    )
+
+st.markdown('<div class="hp-divider"></div>', unsafe_allow_html=True)
 
 st.markdown("Ajoute les pseudonymes Instagram à surveiller (un par ligne) :")
 comptes_input = st.text_area("Comptes Instagram", "hultprize\nhultprize.eg\nhultprize.emsicasa\nhultprizeunilag", height=150)
