@@ -216,7 +216,7 @@ if st.button("Lancer l'analyse et synchroniser avec Notion"):
     status_text = st.empty()
 
     for i, username in enumerate(comptes_list):
-        status_text.text(f"📡 Exploration de @{username} via RapidAPI...")
+        status_text.text(f"📡 Exploration de @{username} ...")
         try:
             posts = fetch_instagram_posts(username)
 
