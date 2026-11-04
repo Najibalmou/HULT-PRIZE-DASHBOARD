@@ -210,7 +210,7 @@ st.markdown('<div class="hp-divider"></div>', unsafe_allow_html=True)
 st.markdown("Ajoute les pseudonymes Instagram à surveiller (un par ligne) :")
 comptes_input = st.text_area("Comptes Instagram", "hultprize\nhultprize.eg\nhultprize.emsicasa\nhultprizeunilag", height=150)
 
-if st.button("🚀 Lancer l'analyse et synchroniser avec Notion"):
+if st.button("Lancer l'analyse et synchroniser avec Notion"):
     comptes_list = [c.strip().lstrip("@") for c in comptes_input.split('\n') if c.strip()]
     progress_bar = st.progress(0)
     status_text = st.empty()
@@ -252,4 +252,4 @@ if st.button("🚀 Lancer l'analyse et synchroniser avec Notion"):
 
         progress_bar.progress((i + 1) / len(comptes_list))
 
-    status_text.text("🎉 Extraction globale terminée !")
+    status_text.text("Extraction globale terminée !")
