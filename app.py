@@ -200,7 +200,7 @@ def check_password():
     """Bloque l'app tant que le bon mot de passe n'est pas saisi."""
     expected = st.secrets.get("APP_PASSWORD")
     if not expected:
-        st.error("🔒 Mot de passe non configuré : ajoute APP_PASSWORD dans les secrets.")
+        st.error("Mot de passe non configuré : ajoute APP_PASSWORD dans les secrets.")
         st.stop()
     if st.session_state.get("auth_ok"):
         return
@@ -319,7 +319,7 @@ st.markdown('<div class="hp-divider"></div>', unsafe_allow_html=True)
 check_password()
 
 st.markdown("Ajoute les pseudonymes Instagram à surveiller (un par ligne). "
-            "Région optionnelle : `pseudo | région`")
+            )
 comptes_input = st.text_area(
     "Comptes Instagram",
     "hultprize\nhultprize.eg\nhultprize.emsicasa\nhultprizeunilag",
@@ -330,9 +330,9 @@ col_a, col_b = st.columns(2)
 with col_a:
     nb_posts = st.slider("Nombre de posts par compte", min_value=1, max_value=5, value=5)
 with col_b:
-    debug_mode = st.checkbox("🛠️ Mode debug (voir le JSON brut du 1er post)")
+    debug_mode = st.checkbox("Mode debug (voir le JSON brut du 1er post)")
 
-if st.button("🚀 Lancer l'analyse et synchroniser avec Notion"):
+if st.button("Lancer l'analyse et synchroniser avec Notion"):
     comptes_list = []
     for line in comptes_input.split("\n"):
         if not line.strip():
@@ -344,12 +344,12 @@ if st.button("🚀 Lancer l'analyse et synchroniser avec Notion"):
     status_text = st.empty()
 
     for i, (username, region_override) in enumerate(comptes_list):
-        status_text.text(f"📡 Exploration de @{username} via RapidAPI...")
+        status_text.text(f"📡 Exploration de @{username} ...")
         try:
             posts = fetch_instagram_posts(username, nb_posts)
 
             if not posts:
-                st.warning(f"🤷 Aucun post trouvé pour @{username} (structure JSON inattendue ?)")
+                st.warning(f"Aucun post trouvé pour @{username} (structure JSON inattendue ?)")
             elif debug_mode:
                 with st.expander(f"JSON brut du 1er post de @{username}"):
                     st.json(posts[0])
@@ -375,13 +375,13 @@ if st.button("🚀 Lancer l'analyse et synchroniser avec Notion"):
                 if resultat == "doublon":
                     st.warning(f"⏩ Déjà dans Notion (Doublon ignoré) : @{username}")
                 elif resultat == "ajouté":
-                    st.success(f"✅ Nouveau post ajouté : @{username} ({post['type']} · {region})")
+                    st.success(f"Nouveau post ajouté : @{username} ({post['type']} · {region})")
                 else:
-                    st.error(f"❌ Erreur d'injection Notion pour @{username} → {resultat}")
+                    st.error(f"Erreur d'injection Notion pour @{username} → {resultat}")
 
         except Exception as e:
             st.error(f"⚠️ Échec de la récupération pour @{username}: {e}")
 
         progress_bar.progress((i + 1) / len(comptes_list))
 
-    status_text.text("🎉 Extraction globale terminée !")
+    status_text.text("Extraction globale terminée !")
