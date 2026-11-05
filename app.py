@@ -322,7 +322,7 @@ st.markdown("Ajoute les pseudonymes Instagram à surveiller (un par ligne). "
             )
 comptes_input = st.text_area(
     "Comptes Instagram",
-    "hultprize\nhultprize.eg\nhultprize.emsicasa\nhultprizeunilag",
+    "",
     height=150,
 )
 
