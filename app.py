@@ -208,15 +208,15 @@ with col_title:
 st.markdown('<div class="hp-divider"></div>', unsafe_allow_html=True)
 
 st.markdown("Ajoute les pseudonymes Instagram à surveiller (un par ligne) :")
-comptes_input = st.text_area("Comptes Instagram", "", height=150)
+comptes_input = st.text_area("Comptes Instagram", "hultprize\nhultprize.eg\nhultprize.emsicasa\nhultprizeunilag", height=150)
 
-if st.button("Lancer l'analyse et synchroniser avec Notion"):
+if st.button("🚀 Lancer l'analyse et synchroniser avec Notion"):
     comptes_list = [c.strip().lstrip("@") for c in comptes_input.split('\n') if c.strip()]
     progress_bar = st.progress(0)
     status_text = st.empty()
 
     for i, username in enumerate(comptes_list):
-        status_text.text(f"📡 Exploration de @{username} ...")
+        status_text.text(f"📡 Exploration de @{username} via RapidAPI...")
         try:
             posts = fetch_instagram_posts(username)
 
@@ -243,13 +243,13 @@ if st.button("Lancer l'analyse et synchroniser avec Notion"):
                 if resultat == "doublon":
                     st.warning(f"⏩ Déjà dans Notion (Doublon ignoré) : @{username}")
                 elif resultat == "ajouté":
-                    st.success(f"Nouveau post ajouté : @{username}")
+                    st.success(f"✅ Nouveau post ajouté : @{username}")
                 else:
-                    st.error(f"Erreur d'injection Notion pour : @{username}")
+                    st.error(f"❌ Erreur d'injection Notion pour : @{username}")
 
         except Exception as e:
             st.error(f"⚠️ Échec de la récupération pour @{username}: {e}")
 
         progress_bar.progress((i + 1) / len(comptes_list))
 
-    status_text.text("Extraction globale terminée !")
+    status_text.text("🎉 Extraction globale terminée !")
