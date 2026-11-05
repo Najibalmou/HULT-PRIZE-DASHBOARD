@@ -30,11 +30,15 @@ NOTION_HEADERS = {
 # ---- 🌍 RÉGIONS : compte Instagram -> région (modifie librement) ----
 ACCOUNT_REGIONS = {
     "hultprize": "Global",
-    "hultprize.eg": "Égypte / MENA",
-    "hultprize.emsicasa": "Maroc / MENA",
-    "hult.prize.fsjesm": "Maroc / MENA",
-    "hultprize.encgo": "Maroc / MENA",
-    "hultprizeunilag": "Nigeria / Afrique",
+    "hultprize.eg": "MEA",
+    "hultprize.emsicasa": "MEA",
+    "hult.prize.fsjesm": "MEA",
+    "hultprize.encgo": "MEA",
+    "hultprizeunilag": "MEA",
+    "hultprize_aui": "MEA",
+    "hprize.ensabm": "MEA",
+    "hprizeemsirabat": "MEA",
+    "hult_prize_uir": "MEA",
 }
 DEFAULT_REGION = "Global"
 
@@ -324,7 +328,7 @@ comptes_input = st.text_area(
 
 col_a, col_b = st.columns(2)
 with col_a:
-    nb_posts = st.slider("Nombre de posts par compte", min_value=1, max_value=12, value=3)
+    nb_posts = st.slider("Nombre de posts par compte", min_value=1, max_value=5, value=5)
 with col_b:
     debug_mode = st.checkbox("🛠️ Mode debug (voir le JSON brut du 1er post)")
 
