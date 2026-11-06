@@ -50,7 +50,8 @@ ANTHROPIC_KEY = st.secrets.get("ANTHROPIC_API_KEY", "")
 
 # ---- 🆓 Alternative gratuite : Groq (prioritaire si la clé est présente) ----
 GROQ_KEY = st.secrets.get("GROQ_API_KEY", "")
-GROQ_MODEL = "llama-3.3-70b-versatile"   # vérifie le nom dans console.groq.com > Docs > Models
+# Modèle modifiable SANS toucher au code : ajoute GROQ_MODEL = "..." dans les secrets Streamlit
+GROQ_MODEL = st.secrets.get("GROQ_MODEL", "openai/gpt-oss-120b")
 AI_AVAILABLE = bool(GROQ_KEY or ANTHROPIC_KEY)
 
 CATEGORIES = ["Marketing / Reel", "Gamification", "Format Événement", "Jury / Mentors", "Sponsoring"]
@@ -316,9 +317,11 @@ def _call_llm(prompt):
             "model": GROQ_MODEL,
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.2,
-            "max_tokens": 700,
+            "max_tokens": 2000,   # marge : les modèles « raisonnement » consomment des tokens avant de répondre
             "response_format": {"type": "json_object"},
         }
+        if "gpt-oss" in GROQ_MODEL:
+            body["reasoning_effort"] = "low"   # réponses plus rapides et moins coûteuses en quota
     else:
         url = "https://api.anthropic.com/v1/messages"
         headers = {"x-api-key": ANTHROPIC_KEY, "anthropic-version": "2023-06-01",
