@@ -540,11 +540,11 @@ with col_a:
     nb_posts = st.slider("Nombre de posts par compte", min_value=1, max_value=5, value=5)
 with col_b:
     use_ai = st.checkbox("Analyse IA", value=AI_AVAILABLE, disabled=not AI_AVAILABLE)
-    debug_mode = st.checkbox("🛠️ Mode debug (JSON brut + analyse IA)")
+    debug_mode = st.checkbox("Mode debug (JSON brut + analyse IA)")
 if not AI_AVAILABLE:
     st.info("Analyse IA désactivée : ajoute GROQ_API_KEY (gratuit) dans les secrets pour l'activer.")
 
-if st.button("🚀 Lancer l'analyse et synchroniser avec Notion"):
+if st.button("Lancer l'analyse et synchroniser avec Notion"):
     comptes_list = []
     for line in comptes_input.split("\n"):
         if not line.strip():
