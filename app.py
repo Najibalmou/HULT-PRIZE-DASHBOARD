@@ -409,11 +409,11 @@ def check_password():
     """Bloque l'app tant que le bon mot de passe n'est pas saisi."""
     expected = st.secrets.get("APP_PASSWORD")
     if not expected:
-        st.error("🔒 Mot de passe non configuré : ajoute APP_PASSWORD dans les secrets.")
+        st.error("Mot de passe non configuré : ajoute APP_PASSWORD dans les secrets.")
         st.stop()
     if st.session_state.get("auth_ok"):
         return
-    pwd = st.text_input("🔒 Mot de passe", type="password")
+    pwd = st.text_input("Mot de passe", type="password")
     if pwd:
         if hmac.compare_digest(pwd, str(expected)):
             st.session_state["auth_ok"] = True
@@ -528,7 +528,7 @@ st.markdown('<div class="hp-divider"></div>', unsafe_allow_html=True)
 check_password()
 
 st.markdown("Ajoute les pseudonymes Instagram à surveiller (un par ligne). "
-            "Optionnel : `pseudo | région | abonnés`")
+            )
 comptes_input = st.text_area(
     "Comptes Instagram",
     "hultprize\nhultprize.eg\nhultprize.emsicasa\nhultprizeunilag",
@@ -539,7 +539,7 @@ col_a, col_b = st.columns(2)
 with col_a:
     nb_posts = st.slider("Nombre de posts par compte", min_value=1, max_value=5, value=5)
 with col_b:
-    use_ai = st.checkbox("🤖 Analyse IA", value=AI_AVAILABLE, disabled=not AI_AVAILABLE)
+    use_ai = st.checkbox("Analyse IA", value=AI_AVAILABLE, disabled=not AI_AVAILABLE)
     debug_mode = st.checkbox("🛠️ Mode debug (JSON brut + analyse IA)")
 if not AI_AVAILABLE:
     st.info("Analyse IA désactivée : ajoute GROQ_API_KEY (gratuit) dans les secrets pour l'activer.")
@@ -559,15 +559,15 @@ if st.button("🚀 Lancer l'analyse et synchroniser avec Notion"):
     status_text = st.empty()
 
     for i, (username, region_override, followers_manual) in enumerate(comptes_list):
-        status_text.text(f"📡 Exploration de @{username} via RapidAPI...")
+        status_text.text(f"Exploration de @{username} ...")
         try:
             posts = fetch_instagram_posts(username, nb_posts)
             followers = followers_manual or fetch_followers(username)
             if not followers:
-                st.caption(f"ℹ️ Abonnés introuvables pour @{username} : taux d'engagement non calculé.")
+                st.caption(f"Abonnés introuvables pour @{username} : taux d'engagement non calculé.")
 
             if not posts:
-                st.warning(f"🤷 Aucun post trouvé pour @{username} (structure JSON inattendue ?)")
+                st.warning(f"Aucun post trouvé pour @{username} (structure JSON inattendue ?)")
             elif debug_mode:
                 with st.expander(f"JSON brut du 1er post de @{username}"):
                     st.json(posts[0])
@@ -607,13 +607,13 @@ if st.button("🚀 Lancer l'analyse et synchroniser avec Notion"):
                 if resultat == "doublon":
                     st.warning(f"⏩ Déjà dans Notion (Doublon ignoré) : @{username}")
                 elif resultat == "ajouté":
-                    st.success(f"✅ Nouveau post ajouté : @{username} ({post['type']} · {region})")
+                    st.success(f"Nouveau post ajouté : @{username} ({post['type']} · {region})")
                 else:
-                    st.error(f"❌ Erreur d'injection Notion pour @{username} → {resultat}")
+                    st.error(f"Erreur d'injection Notion pour @{username} → {resultat}")
 
         except Exception as e:
             st.error(f"⚠️ Échec de la récupération pour @{username}: {e}")
 
         progress_bar.progress((i + 1) / len(comptes_list))
 
-    status_text.text("🎉 Extraction globale terminée !")
+    status_text.text("Extraction globale terminée !")
